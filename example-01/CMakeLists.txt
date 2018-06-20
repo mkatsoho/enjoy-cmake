@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 2.8)     # minimal cmake version
+
 PROJECT(HELLOWORLD)
 
 # suggest to run `cmake ..` in build folder
