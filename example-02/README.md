@@ -1,11 +1,18 @@
-# Example 01 - a new hello world project like a real one
+# Example 01 - a new hello world like a real project
+
+
 
 The new hello world project 
 
 - with folders (e.g. source code, docuemnts, etc) 
 - with files (e.g. copyright, readme, shell scripts, etc)
-- save binary files in a foler (e.g. bin/)
-- install files to system folders (e.g. /usr/bin/, /usr/share/doc/)
+- save binary files in a foler (e.g. bin/), or by default build/SAME-FOLDER-AS-SOURCE
+- install binary files to system folders (e.g. /usr/bin/, /usr/share/doc/)
+- install binary files to customized folders (e.g. /tmp/hello/bin/, /tmp/hello/share/doc/, etc)
+
+
+
+# read CMakeLists.txt to know how
 
 
 
@@ -17,12 +24,12 @@ The new hello world project
 $ pwd
 /home/mk/enjoy-cmake/example-02
 
-$ cd build		
-
-$ rm -rf *	
 
 
-# installed destination is `/tmp/example-02/`
+$ rm -rf *	# CAREFUL, only do this in build/
+
+## using DCMAKE_INSTALL_PREFIX in cmake cmdline for `make install`
+## to install files into the customized folder, or by default to system folders (/usr/bin, /usr/shared/doc, etc)
 $ cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-02 ..
 -- The C compiler identification is GNU 5.4.0
 -- The CXX compiler identification is GNU 5.4.0
@@ -63,22 +70,51 @@ Install the project...
 -- Installing: /tmp/example-02/bin/hello
 
 
-$ ls -l /tmp/example-02/
-total 8
-drwxrwxr-x 2 mk mk 4096 6月  20 22:55 bin
-drwxrwxr-x 3 mk mk 4096 6月  20 21:37 share
+## really install binary files, docs, etc to /tmp/example-02
+$ make install
+[100%] Built target hello
+Install the project...
+-- Install configuration: ""
+-- Installing: /tmp/example-02/share/doc/cmake/t2/COPYRIGHT
+-- Installing: /tmp/example-02/share/doc/cmake/t2/README.example-02
+-- Installing: /tmp/example-02/bin/runhello.sh
+-- Up-to-date: /tmp/example-02/share/doc/cmake/t2
+-- Installing: /tmp/example-02/share/doc/cmake/t2/help1.doc
+-- Installing: /tmp/example-02/share/doc/cmake/t2/help2.doc
+-- Installing: /tmp/example-02/bin/hello
 
-$ ls -l /tmp/example-02/bin
-total 16
--rwxr-xr-x 1 mk mk 8728 6月  20 22:55 hello
--rwxr-xr-x 1 mk mk    6 6月  20 22:55 runhello.sh
 
-
+## run shell script
 $ pushd /tmp/example-02/bin && ./runhello.sh && popd
 
+## remove 
 $ make clean	
 
 ```
+
+
+
+# what happen if NOT using DCMAKE_INSTALL_PREFIX in cmake cmdline
+
+`make install` will by default install files to OS system folder, /usr/local
+
+
+```bash
+
+$ sudo make install
+[100%] Built target hello
+Install the project...
+-- Install configuration: ""
+-- Installing: /usr/local/share/doc/example-02/COPYRIGHT
+-- Installing: /usr/local/share/doc/example-02/README.example-02
+-- Up-to-date: /usr/local/bin/runhello.sh
+-- Up-to-date: /usr/local/share/doc/example-02
+-- Installing: /usr/local/share/doc/example-02/help1.doc
+-- Installing: /usr/local/share/doc/example-02/help2.doc
+-- Installing: /usr/local/bin/hello
+```
+
+
 
 # wrap up
 
@@ -86,10 +122,48 @@ $ make clean
 
 ## vars
 
+cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-02 .						# `make install` will install files & folders to this path
+
+SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)			# `make` save binary output to this path
+SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)				# `make` save library output to this path
+
 
 
 ## commands
 
+ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])		# add sub CMakeLists.txt
 
+INSTALL(TARGETS targets... [
+		[ARCHIVE|LIBRARY|RUNTIME] [DESTINATION <dir>] 
+		[PERMISSIONS permissions...] 
+		[CONFIGURATIONS [Debug|Release|...]] 
+		[COMPONENT <component>] 
+		[OPTIONAL] 
+	] 
+  [...])
+
+INSTALL(FILES files... DESTINATION <dir> [								# similar as above
+		[PERMISSIONS permissions...]
+		[CONFIGURATIONS [Debug|Release|...]]
+		[COMPONENT <component>]
+		[RENAME <name>] 
+		[OPTIONAL]
+	] 
+  [...])
+
+INSTALL(PROGRAMS files... DESTINATION <dir> ......)				# same as above
+
+INSTALL(DIRECTORY dirs... DESTINATION <dir> [
+	[FILE_PERMISSIONS permissions...]
+	[DIRECTORY_PERMISSIONS permissions...]
+	[USE_SOURCE_PERMISSIONS]
+	[CONFIGURATIONS [Debug|Release|...]]
+	[COMPONENT <component>]
+	[
+		[PATTERN <pattern> | REGEX <regex>]
+		[EXCLUDE] 
+		[PERMISSIONS permissions...]
+	] 
+	[...])
 
 ```
