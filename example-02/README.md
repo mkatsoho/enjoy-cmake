@@ -6,14 +6,13 @@ The new hello world project
 
 - with folders (e.g. source code, docuemnts, etc) 
 - with files (e.g. copyright, readme, shell scripts, etc)
-- save binary files in a foler (e.g. bin/), or by default build/SAME-FOLDER-AS-SOURCE
-- install binary files to system folders (e.g. /usr/bin/, /usr/share/doc/)
-- install binary files to customized folders (e.g. /tmp/hello/bin/, /tmp/hello/share/doc/, etc)
+- save binary files in another folder (e.g. build/bin/), or by default build/SAME-FOLDER-AS-SOURCE
+- install output files to customized folders (e.g. /tmp/hello/bin/, /tmp/hello/share/doc/, etc)
+- or, install output files to system folders (e.g. /usr/bin/, /usr/share/doc/)
 
 
 
-# read CMakeLists.txt to know how
-
+# read CMakeLists.txt to know how how
 
 
 
@@ -25,11 +24,11 @@ $ pwd
 /home/mk/enjoy-cmake/example-02
 
 
+$ rm -rf *			# BE CAREFUL. only do this in build/
 
-$ rm -rf *	# CAREFUL, only do this in build/
 
-## using DCMAKE_INSTALL_PREFIX in cmake cmdline for `make install`
-## to install files into the customized folder, or by default to system folders (/usr/bin, /usr/shared/doc, etc)
+## DCMAKE_INSTALL_PREFIX in cmake cmdline, which is used for `make install`
+## to install files into the customized folder, or by default to system folders (/usr/local)
 $ cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-02 ..
 -- The C compiler identification is GNU 5.4.0
 -- The CXX compiler identification is GNU 5.4.0
@@ -47,7 +46,7 @@ $ cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-02 ..
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/mk/proj/zyx-enjoy/enjoy-cmake/example-02/build
+-- Build files have been written to: /home/mk/enjoy-cmake/example-02/build
 
 
 $ make
@@ -57,17 +56,6 @@ Scanning dependencies of target hello
 [ 75%] Building C object base/CMakeFiles/hello.dir/func2.c.o
 [100%] Linking C executable ../bin/hello
 [100%] Built target hello
-mk@chenyg-yinhe-linux:~/proj/zyx-enjoy/enjoy-cmake/example-02/build$ make install
-[100%] Built target hello
-Install the project...
--- Install configuration: ""
--- Up-to-date: /tmp/example-02/share/doc/cmake/t2/COPYRIGHT
--- Up-to-date: /tmp/example-02/share/doc/cmake/t2/README.example-02
--- Installing: /tmp/example-02/bin/runhello.sh
--- Up-to-date: /tmp/example-02/share/doc/cmake/t2
--- Up-to-date: /tmp/example-02/share/doc/cmake/t2/help1.doc
--- Up-to-date: /tmp/example-02/share/doc/cmake/t2/help2.doc
--- Installing: /tmp/example-02/bin/hello
 
 
 ## really install binary files, docs, etc to /tmp/example-02
@@ -75,19 +63,20 @@ $ make install
 [100%] Built target hello
 Install the project...
 -- Install configuration: ""
--- Installing: /tmp/example-02/share/doc/cmake/t2/COPYRIGHT
--- Installing: /tmp/example-02/share/doc/cmake/t2/README.example-02
--- Installing: /tmp/example-02/bin/runhello.sh
--- Up-to-date: /tmp/example-02/share/doc/cmake/t2
--- Installing: /tmp/example-02/share/doc/cmake/t2/help1.doc
--- Installing: /tmp/example-02/share/doc/cmake/t2/help2.doc
+-- Installing: /tmp/example-02/share/doc/example-02/COPYRIGHT
+-- Installing: /tmp/example-02/share/doc/example-02/README.example-02
+-- Up-to-date: /tmp/example-02/bin/runhello.sh
+-- Up-to-date: /tmp/example-02/share/doc/example-02
+-- Installing: /tmp/example-02/share/doc/example-02/help1.doc
+-- Installing: /tmp/example-02/share/doc/example-02/help2.doc
 -- Installing: /tmp/example-02/bin/hello
 
 
 ## run shell script
 $ pushd /tmp/example-02/bin && ./runhello.sh && popd
 
-## remove 
+
+## remove binary files
 $ make clean	
 
 ```
@@ -102,16 +91,18 @@ $ make clean
 ```bash
 
 $ sudo make install
+[sudo] password for mk: 
 [100%] Built target hello
 Install the project...
 -- Install configuration: ""
--- Installing: /usr/local/share/doc/example-02/COPYRIGHT
--- Installing: /usr/local/share/doc/example-02/README.example-02
+-- Up-to-date: /usr/local/share/doc/example-02/COPYRIGHT
+-- Up-to-date: /usr/local/share/doc/example-02/README.example-02
 -- Up-to-date: /usr/local/bin/runhello.sh
 -- Up-to-date: /usr/local/share/doc/example-02
--- Installing: /usr/local/share/doc/example-02/help1.doc
--- Installing: /usr/local/share/doc/example-02/help2.doc
+-- Up-to-date: /usr/local/share/doc/example-02/help1.doc
+-- Up-to-date: /usr/local/share/doc/example-02/help2.doc
 -- Installing: /usr/local/bin/hello
+
 ```
 
 
@@ -126,7 +117,6 @@ cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-02 .						# `make install` will instal
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)			# `make` save binary output to this path
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)				# `make` save library output to this path
-
 
 
 ## commands
