@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 PROJECT(HELLOWORLD)
 
-# suggest to run `cd build/ && cmake -DCMAKE_INSTALL_PREFIX=/tmp/t2 ..`
+# suggest to run `cd build/ && cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-02 ..`
 
 
 # include CMakeLists.txt in the subdirectory

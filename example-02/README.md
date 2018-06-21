@@ -1,4 +1,4 @@
-# Example 01 - a new hello world like a real project
+# Example 02 - a new hello world like a real project
 
 
 
