@@ -111,9 +111,14 @@ Install the project...
 
 ```bash
 
+## OS Vars (NOT inner cmake)
+CMAKE_INCLUDE_PATH 																				# if using none default system folder (/usr/include, /usr/local/include)
+CMAKE_LIBRARY_PATH																				# if using none default system folder (/usr/lib, /usr/local/lib)
+
+
 ## vars
 
-cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-02 .						# `make install` will install files & folders to this path
+cmake -DCMAKE_INSTALL_PREFIX=/tmp/example-03 .						# `make install` will install files & folders to this path
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)			# `make` save binary output to this path
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)				# `make` save library output to this path
@@ -157,3 +162,4 @@ INSTALL(DIRECTORY dirs... DESTINATION <dir> [
 	[...])
 
 ```
+

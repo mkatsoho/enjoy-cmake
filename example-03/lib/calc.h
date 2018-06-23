@@ -1,5 +1,5 @@
 #ifndef CALC_H
 	#define CALC_H
 	#include <stdio.h>
-	int trible(int x);
+	int triple(int x);
 #endif

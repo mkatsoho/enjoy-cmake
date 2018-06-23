@@ -8,8 +8,8 @@ PROJECT(HELLOWORLD)
 
 # used by `cmake` and `make`
 ## include CMakeLists.txt in the subdirectory
-ADD_SUBDIRECTORY(src/base base)					# build source files in `src/base/` and save outputs in `build/base/`
-# ADD_EXECUTABLE(hello ${SRC_LIST})			# this is NOT placed here any more, in the subdirectory instead
+ADD_SUBDIRECTORY(lib lib) 								# for lib/
+ADD_SUBDIRECTORY(src/base base)					
 
 
 # used by `make install`

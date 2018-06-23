@@ -1,5 +1,5 @@
 #include "calc.h"
-int trible(int x)
+int triple(int x)
 {
 	return 3 * x;
 }
